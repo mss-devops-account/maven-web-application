@@ -1,0 +1,25 @@
+node {
+    def maven = tool name: "maven3.8.5"
+    stage('pulling sourcecode')
+    {
+        git branch: 'development', credentialsId: '99631deb-2270-4800-a832-58104c65b8a3', url: 'https://github.com/mss-devops-account/maven-web-application.git'
+    }
+    stage('build')
+    {
+        sh "${maven}/bin/mvn clean package"
+    }
+    stage('sonar report')
+    {
+        sh "${maven}/bin/mvn clean sonar:sonar"
+    }
+    stage('storing artifact in nexus')
+    {
+        sh "${maven}/bin/mvn clean deploy"
+    }
+    stage('deploy to tomcat')
+    {
+        sshagent(['c48e181d-787a-4c85-8ac3-1770e4ac8ccf']) {
+        sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@3.110.167.131:/opt/apache-tomcat-9.0.64/webapps"
+    }
+    }
+}
