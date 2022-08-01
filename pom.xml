@@ -105,7 +105,7 @@
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Snapshot Nexus Repository</name>
-	      <url>http://3.110.148.34:8081/repository/wallart-snapshot</url>
+	      <url>http://3.110.148.34:8081/repository/wallart-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
